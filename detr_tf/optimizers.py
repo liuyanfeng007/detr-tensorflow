@@ -128,10 +128,15 @@ def gather_gradient(model, optimizers, total_loss, tape, config, log):
     gradient_steps["nlayers"] = {"gradients": nlayers_gradients}
 
     
-    log.update({"backbone_lr": optimizers["backbone_optimizer"]._serialize_hyperparameter("learning_rate")})
-    log.update({"transformers_lr": optimizers["transformers_optimizer"]._serialize_hyperparameter("learning_rate")})
-    log.update({"nlayers_lr": optimizers["nlayers_optimizer"]._serialize_hyperparameter("learning_rate")})
+    #log.update({"backbone_lr": optimizers["backbone_optimizer"]._serialize_hyperparameter("learning_rate")})
+    #log.update({"transformers_lr": optimizers["transformers_optimizer"]._serialize_hyperparameter("learning_rate")})
+    #log.update({"nlayers_lr": optimizers["nlayers_optimizer"]._serialize_hyperparameter("learning_rate")})
+    # 'Adam' object has no attribute '_serialize_hyperparameter' liuyf
+    log.update({"backbone_lr": 0.001})
+    log.update({"transformers_lr": 0.001})
+    log.update({"nlayers_lr": 0.001})
 
+    
     return gradient_steps
 
 
