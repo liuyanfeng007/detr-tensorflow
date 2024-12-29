@@ -34,11 +34,13 @@ def np_tf_linear_sum_assignment(matrix):
 
     target_selector = np.zeros(matrix.shape[0])
     target_selector[target_indices] = 1
-    target_selector = target_selector.astype(np.bool)
+    #target_selector = target_selector.astype(np.bool)
+    target_selector = target_selector.astype(bool)
 
     pred_selector = np.zeros(matrix.shape[1])
     pred_selector[pred_indices] = 1
-    pred_selector = pred_selector.astype(np.bool)
+    #pred_selector = pred_selector.astype(np.bool)
+    pred_selector = pred_selector.astype(bool)
 
     #print('target_indices', target_indices)
     #print("pred_indices", pred_indices)
