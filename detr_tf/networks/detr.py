@@ -7,13 +7,17 @@ import matplotlib.pyplot as plt
 import os
 from pathlib import Path
 
-
+class MaskLayer(tf.keras.Layer):
+    def call(self, x):
+        return tf.zeros((tf.shape(x)[0], tf.shape(x)[1], tf.shape(x)[2]), tf.bool)
+        
 from .resnet_backbone import ResNet50Backbone
 from .custom_layers import Linear, FixedEmbedding
 from .position_embeddings import PositionEmbeddingSine
 from .transformer import Transformer
 from .. bbox import xcycwh_to_xy_min_xy_max
 from .weights import load_weights
+
 
 
 class DETR(tf.keras.Model):
@@ -169,7 +173,7 @@ def get_detr_model(config, include_top=False, nb_class=None, weights=None, tf_ba
 
     x = backbone(image_input)
 
-    masks = tf.zeros((tf.shape(x)[0], tf.shape(x)[1], tf.shape(x)[2]), tf.bool)
+    masks = MaskLayer()(x)#tf.zeros((tf.shape(x)[0], tf.shape(x)[1], tf.shape(x)[2]), tf.bool)
     pos_encoding = position_embedding_sine(masks)
 
     hs = transformer(input_proj(x), masks, query_embed(None), pos_encoding)[0]
