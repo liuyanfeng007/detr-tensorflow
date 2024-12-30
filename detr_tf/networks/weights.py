@@ -35,6 +35,7 @@ def load_weights(model, weights: str):
         print("Load weights from", os.path.join(wdir, f"{weights}.ckpt"))
         #l = model.load_weights(os.path.join(wdir, f"{weights}.ckpt"))
         #liuyf
+        import tensorflow as tf
         checkpoint = tf.train.Checkpoint(model=model)
         checkpoint.restore(os.path.join(wdir, f"{weights}.ckpt")).expect_partial()
         #l.expect_partial()
