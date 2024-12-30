@@ -17,7 +17,9 @@ def load_weights(model, weights: str):
     """
     if not os.path.exists('weights'):
         os.makedirs('weights')
-    
+
+    if ".h5" in "weights":
+        model.load_weights(weights)  
     if "ckpt" in "weights":
         model.load(weights)
     elif weights in WEIGHT_NAME_TO_CKPT:
@@ -31,7 +33,10 @@ def load_weights(model, weights: str):
                 r = requests.get(f, allow_redirects=True)
                 open(os.path.join(wdir, fname), 'wb').write(r.content)
         print("Load weights from", os.path.join(wdir, f"{weights}.ckpt"))
-        l = model.load_weights(os.path.join(wdir, f"{weights}.ckpt"))
-        l.expect_partial()
+        #l = model.load_weights(os.path.join(wdir, f"{weights}.ckpt"))
+        #liuyf
+        checkpoint = tf.train.Checkpoint(model=model)
+        checkpoint.restore(os.path.join(wdir, f"{weights}.ckpt")).expect_partial()
+        #l.expect_partial()
     else:
         raise Exception(f'Cant load the weights: {weights}')
